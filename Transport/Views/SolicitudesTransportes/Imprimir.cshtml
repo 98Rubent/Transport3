@@ -1,0 +1,69 @@
+﻿@model Transport.Models.Tablas.SolicitudTransporte
+
+@{
+    Layout = null;
+}
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <title>Solicitud de transporte</title>
+</head>
+
+<div class="card text m-2">
+    <div class="card-header text-center display-1">
+        <h5>Solicitud de transporte del @Html.DisplayFor(model => model.FechaSolicitud)</h5>
+    </div>
+    <div class="card-img mx-auto">
+        <img class="card-img-top" src="~/css/Mapa.png">
+    </div>
+    <div class="card-body">
+        <div class="card-columns">
+            <div class="col mb-2">
+                <h3 class="card-title">Envia</h3>
+                @Html.DisplayFor(model => model.Cliente.Nombres)
+                @Html.DisplayFor(model => model.Cliente.Apellidos)
+            </div>
+            <div class="col mb-2">
+                <h3 class="card-title">Recibe</h3>
+                @Html.DisplayFor(model => model.Receptor)
+            </div>
+            <div class="col mb-2">
+                <h3 class="card-title">Destino</h3>
+                @Html.DisplayFor(model => model.Destino.Nombre)
+                @Html.DisplayFor(model => model.Destino.Direccion)
+            </div>
+            <div class="col mb-2">
+                <h3 class="card-title">Contacto</h3>
+                @Html.DisplayFor(model => model.Destino.Contacto)
+            </div>
+            <div class="col mb-2">
+                <h3 class="card-title">Producto</h3>
+                <p>
+                    Se solicita @Html.DisplayFor(model => model.Producto.Descripcion)
+                    La cantidad de @Html.DisplayFor(model => model.Cantidad)
+                    Un total de @Html.DisplayFor(model => model.Total)
+                    Pagado @Html.DisplayFor(model => model.Pagado)
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer text-muted">
+        @{
+            var plazo = @Html.ValueFor(model => model.FechaEntrega);
+            var hoy = DateTime.Now;
+            DateTime fecharegistro = DateTime.Parse(plazo);
+            var dias = (fecharegistro - DateTime.Now).Days;
+        }
+        <div class="card-text text-center">
+            <h4>Fecha actual @hoy.ToString("dd/MMM/yyyy")</h4>
+            <h4> Fecha de entrega @fecharegistro.ToString("dd/MMM/yyyy")</h4>
+            <h4> Los dias para la entrega son @dias</h4>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>

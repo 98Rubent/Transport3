@@ -70,6 +70,10 @@ namespace Transport
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (!env.IsDevelopment() && !bool.Parse(Configuration["EncryptionEnable"]))
+            {
+                throw new Exception("La encriptacion debe de estar activa para entornos que no son de desarrollo");
+            }
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -97,7 +101,7 @@ namespace Transport
                 endpoints.MapRazorPages();
             });
 
-            Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../Rotativa");
+            //Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../wwwroot/Rotativa");
         }
     }
 }
