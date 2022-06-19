@@ -53,9 +53,9 @@ namespace Transport.Controllers
         // GET: SolicitudesTransportes/Create
         public IActionResult Create()
         {
-            ViewData["ClienteID"] = new SelectList(_context.Clientes, "ClienteId", "Apellidos");
+            ViewData["ClienteID"] = new SelectList(_context.Clientes, "ClienteId", "Nombres");
             ViewData["DestinoID"] = new SelectList(_context.Directorios, "DirectorioId", "Nombre");
-            ViewData["ProductoID"] = new SelectList(_context.Productos, "ProductoId", "Descripcion");
+            ViewData["ProductoID"] = new SelectList(_context.Productos, "ProductoId", "Nombre");
             return View();
         }
 
