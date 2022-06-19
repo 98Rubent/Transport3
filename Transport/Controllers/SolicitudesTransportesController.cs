@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-//using Rotativa.AspNetCore;
+using Rotativa.AspNetCore;
 using Transport.Data;
 using Transport.Models.Tablas;
 
@@ -168,28 +168,28 @@ namespace Transport.Controllers
         }
 
         //VISTA PARA IMPRIMIR
-        //public async Task<IActionResult> Imprimir(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Imprimir(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var solicitudTransporte = await _context.SolicitudesTransportes
-        //        .Include(s => s.Cliente)
-        //        .Include(s => s.Destino)
-        //        .Include(s => s.Producto)
-        //        .FirstOrDefaultAsync(m => m.SolicitudTransporteID == id);
-        //    if (solicitudTransporte == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var solicitudTransporte = await _context.SolicitudesTransportes
+                .Include(s => s.Cliente)
+                .Include(s => s.Destino)
+                .Include(s => s.Producto)
+                .FirstOrDefaultAsync(m => m.SolicitudTransporteID == id);
+            if (solicitudTransporte == null)
+            {
+                return NotFound();
+            }
 
-        //    //return View(await applicationDbContext.ToListAsync());
-        //    return new ViewAsPdf("Imprimir", solicitudTransporte)
-        //    {
-        //    };
-        //}
+            //return View(await applicationDbContext.ToListAsync());
+            return new ViewAsPdf("Imprimir", solicitudTransporte)
+            {
+            };
+        }
 
 
         private bool SolicitudTransporteExists(int id)

@@ -101,7 +101,7 @@ namespace Transport
                 endpoints.MapRazorPages();
             });
 
-            //Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../wwwroot/Rotativa");
+            Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../wwwroot/Rotativa");
         }
     }
 }
