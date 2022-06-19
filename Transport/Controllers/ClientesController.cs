@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using Transport.Models.Tablas;
 
 namespace Transport.Controllers
 {
+    [Authorize]
     public class ClientesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -56,6 +58,10 @@ namespace Transport.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ClienteId,Nombres,Apellidos,Telefono,Correo,Direccion,Nacimiento,Masculino,DPI,NIT,Inicio,NumeroPedidos,Inversion")] Cliente cliente)
         {
+
+            cliente.Inversion = decimal.Parse("0.0"); //Se debe de ir sumando la inversion de cada pedido
+            cliente.NumeroPedidos = int.Parse("0"); //Se debe consultar para ir agregando el total de pedios hechos.
+
             if (ModelState.IsValid)
             {
                 _context.Add(cliente);
@@ -72,8 +78,11 @@ namespace Transport.Controllers
             {
                 return NotFound();
             }
-
             var cliente = await _context.Clientes.FindAsync(id);
+            var punto = cliente.Inversion.ToString();
+
+            punto = punto.Replace(',','.');
+            cliente.Inversion = decimal.Parse(punto);
             if (cliente == null)
             {
                 return NotFound();

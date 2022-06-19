@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "Edit";
+
+    var punto = @Html.DisplayNameFor(model => model.Inversion).ToString();
+    punto = punto.Replace(',', '.');
 }
 
 <h1>Edit</h1>
@@ -65,12 +68,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="NumeroPedidos" class="control-label"></label>
-                <input asp-for="NumeroPedidos" class="form-control" />
+                <input asp-for="NumeroPedidos" class="form-control"/>
                 <span asp-validation-for="NumeroPedidos" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Inversion" class="control-label"></label>
-                <input asp-for="Inversion" class="form-control" />
+                <input asp-for="Inversion" class="form-control" id="inversion"/>
                 <span asp-validation-for="Inversion" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -81,9 +84,14 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Regresar</a>
 </div>
+<script type="text/javascript">
+    window.addeventlisternet()
+    </script>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Transport.Models.Tablas.Directorio>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Indice";
 }
 
-<h1>Index</h1>
+<h1>Indice</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Crear nuevo</a>
 </p>
 <table class="table">
     <thead>
@@ -55,9 +55,9 @@
                 @Html.DisplayFor(modelItem => item.TipoLugar.Lugar)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.DirectorioId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.DirectorioId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.DirectorioId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.DirectorioId">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.DirectorioId">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.DirectorioId">Eliminar</a>
             </td>
         </tr>
 }

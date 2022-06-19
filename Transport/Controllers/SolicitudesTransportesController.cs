@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Rotativa.AspNetCore;
 using Transport.Data;
 using Transport.Models.Tablas;
 
 namespace Transport.Controllers
 {
+    [Authorize]
     public class SolicitudesTransportesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -51,7 +54,7 @@ namespace Transport.Controllers
         public IActionResult Create()
         {
             ViewData["ClienteID"] = new SelectList(_context.Clientes, "ClienteId", "Apellidos");
-            ViewData["DestinoID"] = new SelectList(_context.Directorios, "DirectorioId", "Direccion");
+            ViewData["DestinoID"] = new SelectList(_context.Directorios, "DirectorioId", "Nombre");
             ViewData["ProductoID"] = new SelectList(_context.Productos, "ProductoId", "Descripcion");
             return View();
         }
@@ -70,7 +73,7 @@ namespace Transport.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ClienteID"] = new SelectList(_context.Clientes, "ClienteId", "Apellidos", solicitudTransporte.ClienteID);
-            ViewData["DestinoID"] = new SelectList(_context.Directorios, "DirectorioId", "Direccion", solicitudTransporte.DestinoID);
+            ViewData["DestinoID"] = new SelectList(_context.Directorios, "DirectorioId", "Nombre", solicitudTransporte.DestinoID);
             ViewData["ProductoID"] = new SelectList(_context.Productos, "ProductoId", "Descripcion", solicitudTransporte.ProductoID);
             return View(solicitudTransporte);
         }
@@ -89,7 +92,7 @@ namespace Transport.Controllers
                 return NotFound();
             }
             ViewData["ClienteID"] = new SelectList(_context.Clientes, "ClienteId", "Apellidos", solicitudTransporte.ClienteID);
-            ViewData["DestinoID"] = new SelectList(_context.Directorios, "DirectorioId", "Direccion", solicitudTransporte.DestinoID);
+            ViewData["DestinoID"] = new SelectList(_context.Directorios, "DirectorioId", "Nombre", solicitudTransporte.DestinoID);
             ViewData["ProductoID"] = new SelectList(_context.Productos, "ProductoId", "Descripcion", solicitudTransporte.ProductoID);
             return View(solicitudTransporte);
         }
@@ -127,7 +130,7 @@ namespace Transport.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ClienteID"] = new SelectList(_context.Clientes, "ClienteId", "Apellidos", solicitudTransporte.ClienteID);
-            ViewData["DestinoID"] = new SelectList(_context.Directorios, "DirectorioId", "Direccion", solicitudTransporte.DestinoID);
+            ViewData["DestinoID"] = new SelectList(_context.Directorios, "DirectorioId", "Nombre", solicitudTransporte.DestinoID);
             ViewData["ProductoID"] = new SelectList(_context.Productos, "ProductoId", "Descripcion", solicitudTransporte.ProductoID);
             return View(solicitudTransporte);
         }
@@ -163,6 +166,31 @@ namespace Transport.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        //VISTA PARA IMPRIMIR
+        public async Task<IActionResult> Imprimir(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var solicitudTransporte = await _context.SolicitudesTransportes
+                .Include(s => s.Cliente)
+                .Include(s => s.Destino)
+                .Include(s => s.Producto)
+                .FirstOrDefaultAsync(m => m.SolicitudTransporteID == id);
+            if (solicitudTransporte == null)
+            {
+                return NotFound();
+            }
+
+            //return View(await applicationDbContext.ToListAsync());
+            return new ViewAsPdf("Imprimir", solicitudTransporte)
+            {
+            };
+        }
+
 
         private bool SolicitudTransporteExists(int id)
         {

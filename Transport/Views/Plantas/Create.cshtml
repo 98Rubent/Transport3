@@ -1,10 +1,10 @@
 ﻿@model Transport.Models.Tablas.Planta
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear";
 }
 
-<h1>Create</h1>
+<h1>Crear</h1>
 
 <h4>Planta</h4>
 <hr />
@@ -26,15 +26,47 @@
                 <label asp-for="DepartamentoID" class="control-label"></label>
                 <select asp-for="DepartamentoID" class ="form-control" asp-items="ViewBag.DepartamentoID"></select>
             </div>
+            @*productos asigandos*@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <div class="col-md-offset-2 col-md-10">
+                    <table class="text-center">
+                        <tr>
+                            @{
+                                int cnt = 0;
+                                List<Transport.Models.ViewModels.ProductosAsignadosData> productos = ViewBag.Productos;
+
+                                foreach (var producto in productos)
+                                {
+                                    if (cnt++ % 4 == 0)
+                                    {
+                                        @:</tr><tr>
+                                    }
+                                        @:<td class="align-top col-12 " >
+                                            <input type="checkbox"
+                                                   name="ProductoSeleccionado"
+                                                   value="@producto.ProductoID"
+                                                   class="mr-3 w-100 "
+                                                   @(Html.Raw(producto.Asignado ? "checked=\"checked\"" : "")) /><br />
+                                            @producto.Nombre
+                                        @:</td>
+                                }
+                                @:</tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+
+
+
+            <div class="form-group">
+                <input type="submit" value="Crear" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Regresar</a>
 </div>
 
 @section Scripts {
