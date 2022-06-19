@@ -1,29 +1,79 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Transport</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    @*<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">*@
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Transport</a>
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Transport</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Plantas
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                        <li><a class="dropdown-item" asp-controller="Plantas" asp-action="Index">Administracion de plantas</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Productos" asp-action="Index">Productos</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Servicios
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                        <li><label class="dropdown-header">CONSTRUCCION</label></li>
+                                        <li><a class="dropdown-item" asp-controller="" asp-action="">Solicitudes de construccion</a></li>
+                                        <li><div class="dropdown-divider"></div></li>
+                                        <li><label class="dropdown-header">TRANSPORTE</label></li>
+                                        <li><a class="dropdown-item" asp-controller="SolicitudesTransportes" asp-action="Index">Solicitudes de transportes</a></li>
+                                        <li><div class="dropdown-divider"></div></li>
+                                        <li><label class="dropdown-header">DIRECCIONES</label></li>
+                                        <li><a class="dropdown-item" asp-controller="Directorio" asp-action="Index">Directorio</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Departamentos" asp-action="Index">Departamentos</a></li>
+                                        <li><a class="dropdown-item" asp-controller="TiposLugares" asp-action="Index">Tipos de lugar</a></li>
+                                        <li><div class="dropdown-divider"></div></li>
+                                        <li><label class="dropdown-header">DIRECTORIO</label></li>
+                                        <li><a class="dropdown-item" asp-controller="Clientes" asp-action="Index">Clientes</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Vehiculos
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                        <li><a class="dropdown-item" asp-controller="Vehiculos" asp-action="Index">Vehiculos</a></li>
+                                        <li><a class="dropdown-item" asp-controller="TiposVehiculos" asp-action="Index">Tipos de vehiculos</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Politicas</a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -31,19 +81,23 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <div class="main">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - Transport - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2022 - Transport - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
